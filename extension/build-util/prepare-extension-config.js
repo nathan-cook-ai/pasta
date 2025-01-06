@@ -1,5 +1,4 @@
 import * as fs from 'node:fs';
-console.log("HI");
 
 var data = fs.readFileSync('package.json', 'utf-8');
 var newValue = data.replace('"main": "./pack/src/extension.cjs"', '"main": "./pack/src/extension.js"');
