@@ -586,7 +586,7 @@
         "lint": "eslint .",
         "build": "yarn run langium:generate && tsc -b src src-diagram-snippets src-language-server src-webview src-context-table && node esbuild.mjs",
         "watch": "webpack --watch",
-        "package": "vsce package --yarn -o pasta.vsix",
+        "package": "node build-util/prepare-extension-config.js && vsce package --yarn -o pasta.vsix",
         "predistribute": "yarn run package",
         "distribute": "yarn run distribute:vsce && yarn run distribute:ovsx",
         "distribute:vsce": "vsce publish --yarn --packagePath pasta.vsix",
