@@ -544,7 +544,7 @@
         "src-webview",
         "pack"
     ],
-    "main": "./pack/src/extension.js",
+    "main": "./pack/src/extension.cjs",
     "dependencies": {
         "langium": "^3.0.0",
         "langium-sprotty": "^3.0.0",

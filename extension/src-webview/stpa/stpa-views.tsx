@@ -35,35 +35,38 @@ export class PolylineArrowEdgeView extends PolylineEdgeView {
 
     @inject(DISymbol.RenderOptionsRegistry) renderOptionsRegistry: RenderOptionsRegistry;
 
+    /**
+     * Shifts the edge point to adjust the start/end point of an edge.
+     * @param p The point to shift.
+     * @param compareStart Start compare point to determine the direction of the edge.
+     * @param compareEnd End compare point to determine the direction of the edge.
+     * @param shift The amount to shift the point.
+     * @returns a new shifted point.
+     */
+    protected shiftEdgePoint(p: Point, compareStart: Point, compareEnd: Point, shift: number): Point {
+        // for some reason sometimes the x values are apart by 0.5 although they should be the same, so this is a workaround to fix this
+        const x = compareEnd.x - compareStart.x === 0.5 ? compareEnd.x : (compareEnd.x - compareStart.x === -0.5 ? compareStart.x : p.x);
+        // shift the y value of the point to adjust start/end point of an edge
+        if (compareStart.y < compareEnd.y) {
+            // edge goes down
+            return { x: x, y: p.y - shift };
+        } else {
+            // edge goes up
+            return { x: x, y: p.y + shift };
+        }
+    }
+
     protected renderLine(edge: SEdgeImpl, segments: Point[], context: RenderingContext): VNode {
         const firstPoint = segments[0];
-        const p1 = segments[segments.length - 2];
-        const p2 = segments[segments.length - 1];
-
-        let path = `M ${firstPoint.x},${firstPoint.y}`;
+        // adjust first point to not have a gap between node and edge
+        const start = this.shiftEdgePoint(firstPoint, firstPoint, segments[1], 1);
+        let path = `M ${start.x},${start.y}`;
         for (let i = 1; i < segments.length; i++) {
             const p = segments[i];
             // adjust the last point if it is not an intermediate edge in order to draw the arrow correctly (not reaching into the target node)
             if ((edge.type === CS_EDGE_TYPE || edge.type === STPA_EDGE_TYPE) && i === segments.length - 1) {
-                if (p1.x === p2.x) {
-                    // edge goes down or up
-                    if (p1.y < p2.y) {
-                        // edge goes down
-                        path += ` L ${p.x},${p.y-3}`;
-                    } else {
-                        // edge goes up
-                        path += ` L ${p.x},${p.y + 3}`;
-                    }
-                } else {
-                    // edge goes left or right
-                    if (p1.x < p2.x) {
-                        // edge goes right
-                        path += ` L ${p.x - 3},${p.y}`;
-                    } else {
-                        // edge goes left
-                        path += ` L ${p.x + 3},${p.y}`;
-                    }
-                }
+                const lastPoint = this.shiftEdgePoint(p, segments[segments.length - 2], p, 2);
+                path += ` L ${lastPoint.x},${lastPoint.y}`;
             } else {
                 path += ` L ${p.x},${p.y}`;
             }
@@ -104,29 +107,11 @@ export class PolylineArrowEdgeView extends PolylineEdgeView {
         // if an STPANode is selected, the components not connected to it should fade out
         const hidden = edge.type === STPA_EDGE_TYPE && highlighting && !(edge as STPAEdge).highlight;
 
-        const p1 = segments[segments.length - 2];
-        const p2 = segments[segments.length - 1];
-        let endpoint: string;
+        const forelastSegment = segments[segments.length - 2];
+        const lastSegment = segments[segments.length - 1];
         // determine the last point to draw the arrow correctly (not reaching into the target node)
-        if (p1.x === p2.x) {
-            // edge goes down or up
-            if (p1.y < p2.y) {
-                // edge goes down
-                endpoint = `${p2.x} ${p2.y-2}`;
-            } else {
-                // edge goes up
-                endpoint = `${p2.x} ${p2.y + 2}`;
-            }
-        } else {
-            // edge goes left or right
-            if (p1.x < p2.x) {
-                // edge goes right
-                endpoint = `${p2.x - 2} ${p2.y}`;
-            } else {
-                // edge goes left
-                endpoint = `${p2.x + 2} ${p2.y}`;
-            }
-        }
+        const lastPoint = this.shiftEdgePoint(lastSegment, forelastSegment, lastSegment, 1);
+        const endpoint = `${lastPoint.x} ${lastPoint.y}`;
 
 
         const colorStyle = this.renderOptionsRegistry.getValue(ColorStyleOption);
@@ -149,7 +134,7 @@ export class PolylineArrowEdgeView extends PolylineEdgeView {
             <path  class-missing-edge-arrow={missing} class-print-edge-arrow={printEdge} class-stpa-edge-arrow={coloredEdge || lessColoredEdge} class-greyed-out={hidden} aspect={aspect}
                 class-feedback-grey-arrow={feedbackEdge && greyFeedback}    
                 class-sprotty-edge-arrow={sprottyEdge} d="M 6,-3 L 0,0 L 6,3 Z"
-                transform={`rotate(${this.angle(p2, p1)} ${endpoint}) translate(${endpoint})`} />
+                transform={`rotate(${this.angle(lastPoint, forelastSegment)} ${endpoint}) translate(${endpoint})`} />
         ];
     }
 
