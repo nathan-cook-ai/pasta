@@ -314,7 +314,7 @@ export class StpaScopeProvider extends DefaultScopeProvider {
             for (const node of nodes) {
                 const currentNode: AstNode | undefined = node;
                 if (node.subComponents.length !== 0) {
-                    res = this.getHazardSysCompsDescriptions(node.subComponents, precomputed, type);
+                    res = res.concat(this.getHazardSysCompsDescriptions(node.subComponents, precomputed, type));
                 }
                 res = res.concat(this.getDescriptions(currentNode, type, precomputed));
             }
