@@ -23,7 +23,7 @@ import { Point, toDegrees } from "sprotty-protocol";
 import { DISymbol } from '../di.symbols';
 import { ColorStyleOption, DifferentFormsOption, FeedbackStyleOption, RenderOptionsRegistry, dottedFeedback, lightGreyFeedback } from '../options/render-options-registry';
 import { SendModelRendererAction } from '../snippets/actions';
-import { renderCollapseIcon, renderDiamond, renderEllipse, renderExpandIcon, renderHexagon, renderMirroredTriangle, renderOval, renderPentagon, renderRectangle, renderRoundedRectangle, renderTrapez, renderTriangle } from '../views-rendering';
+import { renderCollapseIcon, renderDiamond, renderEllipse, renderExpandIcon, renderHexagon, renderMirroredTriangle, renderOval, renderPentagon, renderRectangle, renderRectangleForNode, renderRoundedRectangle, renderTrapez, renderTriangle } from '../views-rendering';
 import { collectAllChildren } from './helper-methods';
 import { CSEdge, CSNode, CS_EDGE_TYPE, CS_INTERMEDIATE_EDGE_TYPE, CS_NODE_TYPE, EdgeType, STPAAspect, STPAEdge, STPANode, STPA_EDGE_TYPE, STPA_INTERMEDIATE_EDGE_TYPE } from './stpa-model';
 
@@ -179,7 +179,7 @@ export class STPANodeView extends RectangularNodeView {
                     element = renderTrapez(node);
                     break;
                 case STPAAspect.HAZARD:
-                    element = renderRectangle(node);
+                    element = renderRectangleForNode(node);
                     break;
                 case STPAAspect.SYSTEMCONSTRAINT:
                     element = renderHexagon(node);
@@ -200,7 +200,7 @@ export class STPANodeView extends RectangularNodeView {
                     element = renderDiamond(node);
                     break;
                 default:
-                    element = renderRectangle(node);
+                    element = renderRectangleForNode(node);
                     break;
             }
         } else if (lessColoredNode) {
@@ -210,7 +210,7 @@ export class STPANodeView extends RectangularNodeView {
                 case STPAAspect.SYSTEMCONSTRAINT:
                 case STPAAspect.UCA:
                 case STPAAspect.SCENARIO:
-                    element = renderRectangle(node);
+                    element = renderRectangleForNode(node);
                     break;
                 case STPAAspect.HAZARD:
                 case STPAAspect.RESPONSIBILITY:
@@ -219,11 +219,11 @@ export class STPANodeView extends RectangularNodeView {
                     element = renderRoundedRectangle(node);
                     break;
                 default:
-                    element = renderRectangle(node);
+                    element = renderRectangleForNode(node);
                     break;
             }
         } else {
-            element = renderRectangle(node);
+            element = renderRectangleForNode(node);
         }
 
         // if an STPANode is selected, the components not connected to it should fade out
@@ -344,8 +344,12 @@ export class EdgeLabelView extends SLabelView {
         if (vnode?.data?.class) {
             vnode.data.class['missing-feedback-label'] = missingFeedbackLabel ?? false;
         }
-
-        return vnode;
+        // add a background to the label to make it better readable
+        const background = renderRectangle(0, 2-label.bounds.height, label.bounds.width, label.bounds.height);
+        return <g>
+            <g class-label-background={true}>{background}</g>
+            {vnode}
+        </g>;
     }
 }
 
