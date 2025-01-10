@@ -22,6 +22,12 @@
 @import "./fta-diagram.css";
 @import "./context-menu.css";
 
+.label-background {
+    fill: white;
+    stroke: none;
+    opacity: 0.8;
+}
+
 .collapse-expand-triangle {
     fill: darkgrey;
 }

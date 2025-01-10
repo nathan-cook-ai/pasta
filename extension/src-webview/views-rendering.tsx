@@ -56,10 +56,25 @@ export function renderEllipse(x: number | undefined, y: number | undefined, widt
  * @param node The node that should be represented by a rectangle.
  * @returns A rectangle for {@code node}.
  */
-export function renderRectangle(node: SNodeImpl): VNode {
+export function renderRectangleForNode(node: SNodeImpl): VNode {
     return <rect
         x="0" y="0"
         width={Math.max(node.size.width, 0)} height={Math.max(node.size.height, 0)}
+    />;
+}
+
+/**
+ * Creates a rectangle for with the given parameters.
+ * @param x The x-coordinate of the rectangle.
+ * @param y The y-coordinate of the rectangle.
+ * @param width The width of the rectangle.
+ * @param height The height of the rectangle.
+ * @returns A rectangle with the given parameters.
+ */
+export function renderRectangle(x: number, y: number, width: number, height: number): VNode {
+    return <rect
+        x={x} y={y}
+        width={Math.max(width, 0)} height={Math.max(height, 0)}
     />;
 }
 
