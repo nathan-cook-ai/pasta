@@ -535,14 +535,14 @@
         "onCommand:pasta.getLTLFormula"
     ],
     "files": [
-        "extension",
         "src",
         "src-context-table",
         "src-diagram-snippets",
         "src-language-server",
         "syntaxes",
         "src-webview",
-        "pack"
+        "pack",
+        "icon.png"
     ],
     "main": "./pack/src/extension.cjs",
     "dependencies": {
@@ -554,12 +554,12 @@
         "reflect-metadata": "^0.2.2",
         "feather-icons": "^4.28.0",
         "sprotty-vscode-webview": "^1.0.0",
-        "@kieler/table-webview": "^0.0.7",
+        "@kieler/table-webview": "^0.0.8",
         "snabbdom": "^3.5.1",
         "dayjs": "^1.11.8"
     },
     "devDependencies": {
-        "@types/node": "^14.17.3",
+        "@types/node": "^22.10.6",
         "@types/vscode": "^1.50.0",
         "@types/feather-icons": "^4.7.0",
         "rimraf": "^3.0.2",
@@ -573,7 +573,7 @@
         "file-loader": "^6.2.0",
         "langium-cli": "^3.0.3",
         "style-loader": "^3.3.3",
-        "vsce": "^2.15.0",
+        "@vscode/vsce": "^3.0.0",
         "ovsx": "^0.6.0",
         "esbuild": "^0.21.2"
     },
@@ -586,7 +586,7 @@
         "lint": "eslint .",
         "build": "yarn run langium:generate && tsc -b src src-diagram-snippets src-language-server src-webview src-context-table && node esbuild.mjs",
         "watch": "webpack --watch",
-        "package": "node build-util/prepare-extension-config.js && vsce package --yarn -o pasta.vsix",
+        "package": "vsce package --yarn -o pasta.vsix",
         "predistribute": "yarn run package",
         "distribute": "yarn run distribute:vsce && yarn run distribute:ovsx",
         "distribute:vsce": "vsce publish --yarn --packagePath pasta.vsix",
