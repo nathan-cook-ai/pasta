@@ -541,7 +541,8 @@
         "src-language-server",
         "syntaxes",
         "src-webview",
-        "pack"
+        "pack",
+        "icon.png"
     ],
     "main": "./pack/src/extension.cjs",
     "dependencies": {
