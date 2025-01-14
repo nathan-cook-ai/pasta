@@ -542,7 +542,8 @@
         "syntaxes",
         "src-webview",
         "pack",
-        "icon.png"
+        "icon.png",
+        "LICENSE"
     ],
     "main": "./pack/src/extension.cjs",
     "dependencies": {
