@@ -22,8 +22,9 @@
 @import "./fta-diagram.css";
 @import "./context-menu.css";
 
+
 .label-background {
-    fill: white;
+    fill: var(--vscode-editor-background);
     stroke: none;
     opacity: 0.8;
 }
