@@ -171,7 +171,6 @@ export class IDEnforcer {
                 start: { line: range.start.line, character: range.start.character },
                 end: { line: range.start.line, character: range.start.character + modifiedElement.name.length },
             };
-            this.fixHazardRange(newRange, prefix, modifiedElement);
             newRange.end.character = newRange.start.character + modifiedElement.name.length;
             newRange.end.line = newRange.start.line;
             // create the edit
@@ -179,19 +178,6 @@ export class IDEnforcer {
             edits.push(modifiedElementEdit);
         }
         return edits;
-    }
-
-    /**
-     * For some reason the range of the hazard is not correct. This method fixes this manually.
-     * @param range The range of the hazard.
-     * @param prefix The prefix to check whether the modified element is a hazard.
-     * @param modifiedElement The modified element.
-     */
-    protected fixHazardRange(range: Range, prefix: string, modifiedElement: elementWithName): void {
-        // range for hazards is wrong (dont know why), so it must be adjusted
-        if (prefix === "H") {
-            range.start.character -= 2 + modifiedElement.name.length;
-        }
     }
 
     /**
