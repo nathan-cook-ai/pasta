@@ -390,8 +390,8 @@ export class STPACompletionProvider extends DefaultCompletionProvider {
             if (generatedText !== "") {
                 acceptor(context, {
                     label: "Generate UCA Text",
-                    kind: CompletionItemKind.Text,
-                    insertText: generatedText,
+                    kind: CompletionItemKind.Snippet,
+                    insertText: `"${generatedText}"`,
                     detail: "Inserts the UCA text for this scenario.",
                     sortText: "0",
                 });
