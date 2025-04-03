@@ -19,7 +19,7 @@
 
 .stpa-node {
     stroke: black;
-    fill: var(--vscode-editor-background);
+    fill: none;
     stroke-width: 2;
 }
 
