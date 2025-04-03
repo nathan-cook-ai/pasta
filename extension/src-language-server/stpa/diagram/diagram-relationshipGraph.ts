@@ -101,17 +101,17 @@ export function createRelationshipGraphChildren(
     // determine the children for the STPA graph
     // for each component a node is generated with edges representing the references of the component
     // in order to be able to set the target IDs of the edges, the nodes must be created in the correct order
-    const showLossLabel = showLabelOfAspect(STPAAspect.LOSS, aspectsToShowDescriptions, showLabels, labelManagement);
+    const showLossLabel = showDescriptionOfAspect(STPAAspect.LOSS, aspectsToShowDescriptions, showLabels, labelManagement);
     let stpaChildren: SModelElement[] = filteredModel.losses?.map(l =>
         generateSTPANode(l, showLossLabel, idToSNode, options, idCache)
     );
-    const showHazardDescription = showLabelOfAspect(
+    const showHazardDescription = showDescriptionOfAspect(
         STPAAspect.HAZARD,
         aspectsToShowDescriptions,
         showLabels,
         labelManagement
     );
-    const showSystemConstraintDescription = showLabelOfAspect(
+    const showSystemConstraintDescription = showDescriptionOfAspect(
         STPAAspect.SYSTEMCONSTRAINT,
         aspectsToShowDescriptions,
         showLabels,
@@ -164,31 +164,31 @@ export function createRelationshipGraphChildren(
                 .flat(2),
         ]);
     }
-    const showResponsibilitiesDescription = showLabelOfAspect(
+    const showResponsibilitiesDescription = showDescriptionOfAspect(
         STPAAspect.RESPONSIBILITY,
         aspectsToShowDescriptions,
         showLabels,
         labelManagement
     );
-    const showUCAsDescription = showLabelOfAspect(
+    const showUCAsDescription = showDescriptionOfAspect(
         STPAAspect.UCA,
         aspectsToShowDescriptions,
         showLabels,
         labelManagement
     );
-    const showControllerConstraintDescription = showLabelOfAspect(
+    const showControllerConstraintDescription = showDescriptionOfAspect(
         STPAAspect.CONTROLLERCONSTRAINT,
         aspectsToShowDescriptions,
         showLabels,
         labelManagement
     );
-    const showScenarioDescription = showLabelOfAspect(
+    const showScenarioDescription = showDescriptionOfAspect(
         STPAAspect.SCENARIO,
         aspectsToShowDescriptions,
         showLabels,
         labelManagement
     );
-    const showSafetyConsDescription = showLabelOfAspect(
+    const showSafetyConsDescription = showDescriptionOfAspect(
         STPAAspect.SAFETYREQUIREMENT,
         aspectsToShowDescriptions,
         showLabels,
@@ -237,7 +237,7 @@ export function createRelationshipGraphChildren(
  * @param labelManagement The labelManagement option of the STPA model.
  * @returns whether the label of the given {@code aspect} should be shown.
  */
-function showLabelOfAspect(
+function showDescriptionOfAspect(
     aspect: STPAAspect,
     aspectsToShowDescriptions: STPAAspect[],
     showLabels: showLabelsValue,

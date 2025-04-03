@@ -309,7 +309,7 @@ export class STPAGraphView extends SGraphView {
 @injectable()
 export class PortView implements IView {
     render(model: SPortImpl, context: RenderingContext): VNode {
-        const port = <g>{renderPort(model.position.x, model.position.y, model.size.width, model.size.height)}</g>;
+        const port = <g>{renderPort(0, 0, model.size.width, model.size.height)}</g>;
         return <g class-pasta-hidden>{port}</g>;
     }
 }
@@ -332,7 +332,6 @@ export class HeaderLabelView extends SLabelView {
 
 @injectable()
 export class EdgeLabelView extends SLabelView {
-    // TODO: background for the labels to be better readable
     render(label: Readonly<SLabelImpl>, context: RenderingContext): VNode | undefined {
         // label belongs to a node which may have missing feedback
         const nodeMissingFeedback = label.parent.type === CS_NODE_TYPE && (label.parent as CSNode).hasMissingFeedback;
