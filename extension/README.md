@@ -128,7 +128,7 @@ The Sections of an `.stpa` file associated with STPA aspects are:
 In order to define a new component, the prefix of the corresponding aspect must be stated, for example "L", and afterwards a string with the description.
 The numbering of the IDs is adjusted automatically.
 For Hazards and system-level constraints subcomponents can be defined.
-For scenarios the causal factor can stated.
+For scenarios the causal factor can be stated.
 
 In the control structure, system components can be stated, which can contain a process model, input, output, control actions, feedback, and further system components. The visualization of input and output edges is in an experimental state at the moment and will be improved in the future.
 
