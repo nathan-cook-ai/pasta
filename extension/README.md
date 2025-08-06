@@ -103,6 +103,28 @@ With the extension installed and editing an `.stpa` file in VS Code, a context m
 
 To use the extension for an analysis, the file in which the analysis is done must have `.stpa` as its file ending.
 Each STPA aspect has its own section in the DSL. Components for each aspect are defined with an ID, a description, and a reference list.
+
+#### STPA Aspect Sections
+
+The Sections of an `.stpa` file associated with STPA aspects are:
+
+* `Goals`
+* `Assumptions`
+* `Losses`
+* `Hazards` 
+  * reference `Losses`
+  * can have subhazards
+* `SystemConstraints`
+  * reference `Hazards`
+  * can have subconstraints
+* `ControlStructure`
+* `Responsibilities`
+  * references `SystemConstraints`
+* `UCAs`
+* `ControllerConstraints`
+* `LossScenarios`
+* `SafetyRequirements`
+
 In order to define a new component, the prefix of the corresponding aspect must be stated, for example "L", and afterwards a string with the description.
 The numbering of the IDs is adjusted automatically.
 For Hazards and system-level constraints subcomponents can be defined.
