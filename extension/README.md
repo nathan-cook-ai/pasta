@@ -9,6 +9,7 @@ Examples can be found in [pasta-examples](https://github.com/kieler/pasta-exampl
 ### Validity Checks
 
 Several validity checks are provided, for example
+
 * for each control action at least one Unsafe Control Action (UCA) must be defined,
 * for each UCA a constraint must be defined.
   
@@ -21,22 +22,23 @@ The diagram can be exported via the command palette (ctrl+shift+P) if the view c
 
 ### Diagram Snippets
 
-Defining a control structure textually can be difficult at first. 
-To better introduce new users to the syntax diagram snippets are provided in the `PASTA` tab on the left. 
-A diagram snippet shows a control structure and by clicking on it the textual representation is added to the `ControlStructure` section in the currently open file. 
-Custom snippets can be added by selecting the textual representation of the snippet that should be added and then selecting `Add STPA Diagram Snippet` in the context menu. 
+Defining a control structure textually can be difficult at first.
+To better introduce new users to the syntax diagram snippets are provided in the `PASTA` tab on the left.
+A diagram snippet shows a control structure and by clicking on it the textual representation is added to the `ControlStructure` section in the currently open file.
+Custom snippets can be added by selecting the textual representation of the snippet that should be added and then selecting `Add STPA Diagram Snippet` in the context menu.
 Alternatively the textual representation can be entered in the diagram snippets tab and added by clicking on the button `Add Diagram Snippet`.
 
 ### Context Table
 
-Instead of informal UCA definitions a context table may be used. This is done by using the section `Context-Table` instead of `UCAs`. A context table can then be generated automatically and shown alongside the diagram by selecting `Show Context Tables` in the editor context menu or the corresponding icon right above the editor. Clicking on a UCA in the context table highlights the corresponding node in the diagram and its definition in the editor. In the context table view a control action can be selected in order to inspect it. 
+Instead of informal UCA definitions a context table may be used. This is done by using the section `Context-Table` instead of `UCAs`. A context table can then be generated automatically and shown alongside the diagram by selecting `Show Context Tables` in the editor context menu or the corresponding icon right above the editor. Clicking on a UCA in the context table highlights the corresponding node in the diagram and its definition in the editor. In the context table view a control action can be selected in order to inspect it.
 
 ### Automation through Completion Item
 
-Partly information is repeated in STPA e.g. when defining a scenario for a UCA, the UCA itself is written down again. 
+Partly information is repeated in STPA e.g. when defining a scenario for a UCA, the UCA itself is written down again.
 To reduce the time effort, PASTA offers completion items, which generate text automatically based on the informations already stated in other components.
 To access completion items, press `ctrl` + `space`.
 The following completion items are provided:
+
 * create system component
 * create starting text for a plain text UCA
 * create a template rule
@@ -48,23 +50,25 @@ The following completion items are provided:
 
 ### Result Report
 
-The context menu contains an option to automatically create a result report in form of a markdown file. 
-The file contains a section for each aspect with its defined components and a diagram showing only the relevant components for the aspect to keep the diagram small. 
-At the end all identified constraints are summarized and a diagram showing all components is embedded. 
+The context menu contains an option to automatically create a result report in form of a markdown file.
+The file contains a section for each aspect with its defined components and a diagram showing only the relevant components for the aspect to keep the diagram small.
+At the end all identified constraints are summarized and a diagram showing all components is embedded.
 The markdown file can easily be exported to a PDF file.
 
 ### Safe Behavioral Model Generation
 
-In the context menu an option to automatically generate a safe behavioral model as an SCChart is provided. 
+In the context menu an option to automatically generate a safe behavioral model as an SCChart is provided.
 For that the defined UCAs are translated to LTL formulas, which are further used to create the SCChart.
 This guarantees that the identified UCAs cannot occur since the LTL formulas are respected except the ones for the UCA type **too early**.
 For the generation you can define ranges for the process model variable values with standard range notation and the keywords `MIN` and `MAX`.
 Example process model:
-```
+
+```text
 processModel {
     currentSpeed: [desiredSpeed=[desiredSpeed], lessDesiredSpeed = [MIN, desiredSpeed), greaterDesiredSpeed=(desiredSpeed, MAX]]
 }
 ```
+
 In this case the controller has the process model variable `currentSpeed` which can take the values `desiredSpeed`, `lessDesiredSpeed`, and `greaterDesiredSpeed`.
 For each of these values, the range it covers is defined.
 `lessDesiredSpeed` covers every speed under the desired one, `greaterDesiredSpeed` every speed above the desired speed, and `desiredSpeed` only the desired speed.
@@ -77,21 +81,36 @@ Besides STPA the extension also supports FTA. A textual DSL as well as an automa
 
 Furthermore, after an STPA is done, a corresponding Fault Tree can be generated automatically. To do this, the action "Generate Fault Trees" in the context menu must be selected. It generates a fault tree for each hazard and groups the scenarios by their causal factor if one is given.
 
+## PASTA Context Menu
+
+With the extension installed and editing an `.stpa` file in VS Code, a context menu is available with a right-click in the body of the file.
+
+* Automatic ID Generation \[Y/n\]
+* Validation Checks
+  * Set the responsibilities for constraints check \[Y/n\]
+  * Set the constraints for UCA check \[Y/n\]
+  * Set the scenarios for UCA check \[Y/n\]
+  * Set the safety requirements for UCA check \[Y/n\]
+  * Set the missing feedback for systems components check \[Y/n\]
+* Create a Markdown file: Generates a markdown formatted file with inline diagrams
+* Generate Fault Trees: Generates the minimal cut sets for the current Fault Tree, if it exists
+
 ## DSL
 
 ### STPA
 
-To use the extension for an analysis, the file in which the analysis is done must have `.stpa` as its file ending. 
-Each STPA aspect has its own section in the DSL. Components for each aspect are defined with an ID, a description, and a reference list. 
-In order to define a new component, the prefix of the corresponding aspect must be stated, for example "L", and afterwards a string with the description. 
-The numbering of the IDs is adjusted automatically. 
+To use the extension for an analysis, the file in which the analysis is done must have `.stpa` as its file ending.
+Each STPA aspect has its own section in the DSL. Components for each aspect are defined with an ID, a description, and a reference list.
+In order to define a new component, the prefix of the corresponding aspect must be stated, for example "L", and afterwards a string with the description.
+The numbering of the IDs is adjusted automatically.
 For Hazards and system-level constraints subcomponents can be defined.
 For scenarios the causal factor can stated.
 
 In the control structure, system components can be stated, which can contain a process model, input, output, control actions, feedback, and further system components. The visualization of input and output edges is in an experimental state at the moment and will be improved in the future.
 
 *Minimal example of an analysis for a ferry:*
-```
+
+```text
 Losses
 L1 "Loss of life or serious injury to people"
 
@@ -166,7 +185,8 @@ SR1 "ControlCentre must manual set the parameters of the engine when vessel come
 ```
 
 *Example for defining UCAs with the context table:*
-```
+
+```text
 Context-Table
 RL1 {
     controlAction: ControlCentre.manual
@@ -183,7 +203,7 @@ The file in which the analysis is done must have `.fta` as its file ending. Each
 
 *Example of an analysis:*
 
-```
+```text
 Components
 M1 "Redundant memory unit 1"
 M2 "Redundant memory unit 2"
@@ -211,19 +231,21 @@ G6 "Memory Fail" = 2 of M1, M2, M3
 ## Diagram Options
 
 The extension provides several diagram options to adjust the diagram.
+
 * Model Order: Order of the elements depends on the order of their textual definition
 * Node Label Management: Node Labels can be wrapped, truncated, or not shown at all. The Shortening Width states how many characters are allowed in one line when truncating/wrapping
 
-### STPA
-* Color Style: The STPA aspect are colored differently to better distinguish them. With this option this can be adjusted to just use black or fewer/more colors. 
+### STPA Diagram Options
+
+* Color Style: The STPA aspect are colored differently to better distinguish them. With this option this can be adjusted to just use black or fewer/more colors.
 * Hierarchy: If this option is selected, subcomponents are drawn inside their parents. Otherwise this connection is shown by an edge from the subcomponent to its parent.
 * Group UCAs: UCAs can be grouped by their control action or their system component. Each group of UCAs has their own layer in the diagram.
 * Show Labels of: This option determines of which aspects the descriptions are shown in the diagram. If "Automatic" is selected, the shown labels are determined by the cursor position. In most cases the labels of the aspect which must be referenced by the currently modified aspect are shown. When writing Hazards also the Hazard descriptions are shown.
 * Filter UCA by Control Action: The UCAs can be filtered such that only UCAs for a certain control action are shown making the diagram smaller and clearer.
 * Show x: When selected the specified graph/aspect is shown, otherwise it is hidden.
 
+### FTA Diagram Options
 
-### FTA 
 * Show Gate Descriptions: Shows the descriptions of the gates in the diagram.
 * Show Component Descriptions: Shows the descriptions of the components in the diagram.
 * Highlight Cut Set: To use this first the action to generate the cut sets must be executed. Then here a cut set can be selected. The components belonging to the cut set are highlighted in red, components and gates irrelevant for the failure are faded out, and the top event is highlighted in blue. Thus, when only a subtree is analyzed, the root of this subtree is highlighted. Additionally, the option SPoFs in the dropdown menu highlights all single point of failures.
