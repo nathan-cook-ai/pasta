@@ -94,6 +94,8 @@ With the extension installed and editing an `.stpa` file in VS Code, a context m
   * Set the missing feedback for systems components check \[Y/n\]
 * Create a Markdown file: Generates a markdown formatted file with inline diagrams
 * Generate Fault Trees: Generates the minimal cut sets for the current Fault Tree, if it exists
+* Generate Safe Behavioral Model (SBM): Generates a safe behavioral model as an SCChart
+* Add STPA Diagram Snippet: Adds selected textual representation to snippets
 
 ## DSL
 
